@@ -10,10 +10,3 @@
   align-content: start;
   gap: 1.6rem;
 }
-
-@media (max-width: 900px) {
-  .countryList {
-    display: flex;
-    flex-direction: column;
-  }
-}
