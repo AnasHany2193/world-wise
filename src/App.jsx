@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Login from "./pages/Login";
 import Product from "./pages/Product";
 import Pricing from "./pages/Pricing";
@@ -5,8 +8,7 @@ import Homepage from "./pages/Homepage";
 import AppLayout from "./pages/AppLayout";
 import CityList from "./components/CityList";
 import PageNotFound from "./pages/PageNotFound";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import CountryList from "./components/CountryList";
 
 const BASE_URL =
   "https://raw.githubusercontent.com/AnasHany219/data/main/worldWise-data/cities.json";
@@ -49,7 +51,10 @@ function App() {
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           />
-          <Route path="countries" element={<p>Countries</p>} />
+          <Route
+            path="countries"
+            element={<CountryList cities={cities} isLoading={isLoading} />}
+          />
           <Route path="form" element={<p>Form</p>} />
         </Route>
 
