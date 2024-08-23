@@ -32,3 +32,11 @@
 .product section a {
   margin-top: 2rem;
 }
+
+@media (max-width: 900px) {
+  .product section {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+  }
+}

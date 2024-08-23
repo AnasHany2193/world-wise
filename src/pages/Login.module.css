@@ -24,3 +24,9 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+@media (max-width: 900px) {
+  .form {
+    width: 100%;
+  }
+}
