@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const BASE_URL =
   "https://raw.githubusercontent.com/AnasHany219/data/main/worldWise-data/cities.json";
@@ -33,4 +33,13 @@ function CitiesProvider({ children }) {
   );
 }
 
-export { CitiesContext, CitiesProvider };
+function useCities() {
+  const context = useContext(CitiesContext);
+
+  if (context === "undefined")
+    throw new Error("CitiesContext was used outside of the CitiesProvider");
+
+  return context;
+}
+
+export { useCities, CitiesProvider };
