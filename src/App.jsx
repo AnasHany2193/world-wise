@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login";
+import City from "./components/City";
 import Product from "./pages/Product";
 import Pricing from "./pages/Pricing";
 import Homepage from "./pages/Homepage";
@@ -51,6 +52,7 @@ function App() {
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           />
+          <Route path="cities/:id" element={<City />} />
           <Route
             path="countries"
             element={<CountryList cities={cities} isLoading={isLoading} />}
