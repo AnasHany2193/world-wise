@@ -56,7 +56,7 @@ function CitiesProvider({ children }) {
         ? JSON.parse(storedCities)
         : await fetchCitiesFromAPI();
 
-      const city = data.find((city) => city.id === Number(id));
+      const city = data.find((city) => String(city.id) === id);
       setCurrentCity(city);
     } catch {
       alert("There was an error fetching city details.");
@@ -65,8 +65,30 @@ function CitiesProvider({ children }) {
     }
   }
 
+  // Function to create a new city
+  async function createCity(newCity) {
+    try {
+      setIsLoading(true);
+
+      // Get existing cities from local storage
+      const storedCities = localStorage.getItem("cities");
+      const data = storedCities ? JSON.parse(storedCities) : [];
+
+      // Add the new city
+      const updatedData = [...data, newCity];
+      setCities(updatedData);
+      localStorage.setItem("cities", JSON.stringify(updatedData));
+    } catch {
+      alert("There was an error creating the city.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <CitiesContext.Provider value={{ cities, getCity, isLoading, currentCity }}>
+    <CitiesContext.Provider
+      value={{ cities, getCity, createCity, isLoading, currentCity }}
+    >
       {children}
     </CitiesContext.Provider>
   );
