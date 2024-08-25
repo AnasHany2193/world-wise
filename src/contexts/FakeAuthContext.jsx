@@ -32,7 +32,7 @@ function AuthProvider({ children }) {
     initialState
   );
 
-  function login({ email, passowrd }) {
+  function login(email, passowrd) {
     if (email === FAKE_USER.email && passowrd === FAKE_USER.password)
       dispatch({ type: "login", payload: FAKE_USER });
   }
@@ -42,9 +42,9 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Providor value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
       {children}
-    </AuthContext.Providor>
+    </AuthContext.Provider>
   );
 }
 

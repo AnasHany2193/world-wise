@@ -43,10 +43,8 @@ function Form() {
       try {
         setgeocodingError("");
         setIsLoadingGeocoding(true);
-        console.log(`${BASE_URL}?latitude=${lat}&longitude=${lng}`);
         const res = await fetch(`${BASE_URL}?latitude=${lat}&longitude=${lng}`);
         const data = await res.json();
-        console.log(data);
 
         if (data.status === 402)
           throw new Error("Your quota limit has been exceeded");
