@@ -10,15 +10,35 @@ function CitiesProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentCity, setCurrentCity] = useState({});
 
+  // Helper function to fetch cities from API
+  async function fetchCitiesFromAPI() {
+    try {
+      const res = await fetch(BASE_URL);
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch cities from API", error);
+      return [];
+    }
+  }
+
+  // useEffect to initialize cities data
   useEffect(() => {
     async function fetchCities() {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        const res = await fetch(BASE_URL);
-        const data = await res.json();
-        setCities(data);
+        // Check local storage for cities data
+        const storedCities = localStorage.getItem("cities");
+        if (storedCities) {
+          setCities(JSON.parse(storedCities));
+        } else {
+          // Fetch from API if no data is in local storage
+          const data = await fetchCitiesFromAPI();
+          setCities(data);
+          localStorage.setItem("cities", JSON.stringify(data));
+        }
       } catch {
-        alert("There was an error");
+        alert("There was an error fetching cities.");
       } finally {
         setIsLoading(false);
       }
@@ -27,15 +47,19 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
+  // Function to get a single city by id
   async function getCity(id) {
     try {
       setIsLoading(true);
-      const res = await fetch(BASE_URL);
-      const data = await res.json();
+      const storedCities = localStorage.getItem("cities");
+      let data = storedCities
+        ? JSON.parse(storedCities)
+        : await fetchCitiesFromAPI();
+
       const city = data.find((city) => city.id === Number(id));
       setCurrentCity(city);
     } catch {
-      alert("There was an error");
+      alert("There was an error fetching city details.");
     } finally {
       setIsLoading(false);
     }
