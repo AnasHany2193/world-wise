@@ -49,6 +49,8 @@ function CitiesProvider({ children }) {
 
   // Function to get a single city by id
   async function getCity(id) {
+    if (Number(id) === currentCity.id) return;
+
     try {
       setIsLoading(true);
       const storedCities = localStorage.getItem("cities");
