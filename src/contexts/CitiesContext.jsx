@@ -85,9 +85,36 @@ function CitiesProvider({ children }) {
     }
   }
 
+  // Function to delete a city by id
+  async function deleteCity(id) {
+    try {
+      setIsLoading(true);
+
+      // Get existing cities from local storage
+      const storedCities = localStorage.getItem("cities");
+      const data = storedCities ? JSON.parse(storedCities) : [];
+
+      // Remove the city
+      const updatedData = data.filter((city) => String(city.id) !== id);
+      setCities(updatedData);
+      localStorage.setItem("cities", JSON.stringify(updatedData));
+    } catch {
+      alert("There was an error deleting the city.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
-      value={{ cities, getCity, createCity, isLoading, currentCity }}
+      value={{
+        cities,
+        getCity,
+        isLoading,
+        createCity,
+        deleteCity,
+        currentCity,
+      }}
     >
       {children}
     </CitiesContext.Provider>
