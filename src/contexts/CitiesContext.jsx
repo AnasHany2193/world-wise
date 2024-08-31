@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  createContext,
+} from "react";
 
 const BASE_URL =
   "https://raw.githubusercontent.com/AnasHany219/data/main/worldWise-data/cities.json";
@@ -48,24 +54,27 @@ function CitiesProvider({ children }) {
   }, []);
 
   // Function to get a single city by id
-  async function getCity(id) {
-    if (Number(id) === currentCity.id) return;
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (Number(id) === currentCity.id) return;
 
-    try {
-      setIsLoading(true);
-      const storedCities = localStorage.getItem("cities");
-      let data = storedCities
-        ? JSON.parse(storedCities)
-        : await fetchCitiesFromAPI();
+      try {
+        setIsLoading(true);
+        const storedCities = localStorage.getItem("cities");
+        let data = storedCities
+          ? JSON.parse(storedCities)
+          : await fetchCitiesFromAPI();
 
-      const city = data.find((city) => String(city.id) === id);
-      setCurrentCity(city);
-    } catch {
-      alert("There was an error fetching city details.");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+        const city = data.find((city) => String(city.id) === id);
+        setCurrentCity(city);
+      } catch {
+        alert("There was an error fetching city details.");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentCity.id]
+  );
 
   // Function to create a new city
   async function createCity(newCity) {
